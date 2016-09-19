@@ -52,6 +52,9 @@ credentials.
                 "city":"<city>",
                 "state":"<state>",
                 "zip_code":"<zip-code>",
+                "posts":123,
+                "followers":23,
+                "following":34,
                 "image":"<user-image-url>",
                 "thumb":"<user-image-thumb-url>",
                 "referral_code":"<optional-referral-code>"
@@ -137,6 +140,9 @@ credentials.
                 "city":"<city>",
                 "state":"<state>",
                 "zip_code":"<zip-code>",
+                "posts":123,
+                "followers":23,
+                "following":34,
                 "image":"<user-image-url>",
                 "thumb":"<user-image-thumb-url>",
                 "referral_code":"<optional-referral-code>"
@@ -989,6 +995,111 @@ This API is used to get unread feeds and notifications for a user.
                 {
                     "unread_feed": 5,
                     "unread_notifications": 0
+                }
+              ]
+            }
+            
+## Get User Profile [/fitchirp/user/profile/get?{user_id}&{_fcud}]
+### Get User Profile [GET]
+
+This API is used to get a user's profile.
+
++ Response 200 (application/json)
+
+    
+    + Body
+    
+            {
+              "status": 200,
+              "message": "success",
+              "result": [
+                {
+                    "user_id":"<user-id>",
+                "first_name":"<first-name>",
+                "last_name":"<last-name>",
+                "email":"<email>",
+                "phone":"<phone>",
+                "social_id":"<social-id>",
+                "login_type":"<0-email, 1-facebook>",
+                "city":"<city>",
+                "state":"<state>",
+                "zip_code":"<zip-code>",
+                "posts":123,
+                "followers":23,
+                "following":34,
+                "is_following":false,
+                "image":"<user-image-url>",
+                "thumb":"<user-image-thumb-url>",
+                "referral_code":"<optional-referral-code>"
+                "user_type":"0", #0 - individual, 1 - professional
+                "basic_profile":{
+                    "interests":["<interest-id>", "<interest-id>"],
+                    "other_speciality":"<other-speciality>"
+                },
+                "professional_profile":{
+                    "department":"<department-id>",
+                    "speciality":
+                    [
+                        {
+                            "id":"<id>",
+                            "description":"<description>",
+                        },
+                        {
+                            "id":"<id>",
+                            "description":"<description>",
+                        }
+                    ],
+                    "philosophy":"<p-description>",
+                    "bio":"<bio-description>",
+                    "education":"<edu-description>"
+                }
+                }
+              ]
+            }
+            
+## Get Posts of User [/fitchirp/user/posts/get?{user_id}&{timestamp}&{_fcud}]
+### Get Posts of User [GET]
+
+This API is used to get the posts of a user. The timestamp when sent 0 returns 
+the latest 10 posts of a user and when sent correctly, returns the posts older than
+the supplied timestamp.
+
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            
+        
+    + Body
+            
+            {
+              "status": 200,
+              "message": "success",
+              "result": [
+                {
+                  "posts": [
+                    {
+                      "id": "<post-id>",
+                      "timestamp": "<timestamp>",
+                      "user": {
+                        "user_id": "<user_id>",
+                        "first_name": "<first-name>",
+                        "last_name": "<last-name>",
+                        "thumb": "<thumb-user-image>"
+                      },
+                      "content": {
+                        "image": "<image-url>",
+                        "thumb": "<thumb>",
+                        "type":"video",
+                        "data": "<video-player-url>",
+                        "web_url":"<web-link-content>",
+                        "title": "<title>",
+                        "description": "<description>"
+                      },
+                      "activity": null,
+                    }
+                  ]
                 }
               ]
             }
