@@ -160,7 +160,8 @@ credentials.
                     ],
                     "philosophy":"<p-description>",
                     "bio":"<bio-description>",
-                    "education":"<edu-description>"
+                    "education":"<edu-description>",
+                    "website":"<user-website-url>"
                 }
                 }]
             }
@@ -234,6 +235,30 @@ This API is used to register the user in the application using a valid email/pas
                 "message":"Email Already in Use"
             }
             
+## Forgot Password [/fitchirp/forgot_password]
+### Forgot Password [POST]
+
+This API is used to reset the forgotten password. 
+
++ Request (application/json)
+
+        {
+            "email":"<user-email>"
+        }
+        
++ Response 200 (application/json)
+
+    + Headers
+    
+            
+        
+    + Body
+    
+            {
+                "status":200,
+                "message":"A link to reset your password has been sent to your email"
+            }
+            
 ## Setup Account [/fitchirp/setup_account]
 ### Setup Account [POST]
 
@@ -247,7 +272,8 @@ This API is used to setup account of the user after registration.
             "first_name":"<first-name>",
             "last_name":"<last-name>",
             "phone":"<phone>",
-            "zip":"<zipcode>"
+            "zip":"<zipcode>", 
+            "suggest_friends":true
         }
 
 + Response 200 (application/json)
@@ -351,7 +377,8 @@ This API is used to update profile of the professional user after registration.
                 ],
                 "philosophy":"<p-description>",
                 "bio":"<bio-description>",
-                "education":"<edu-description>"
+                "education":"<edu-description>",
+                "website":"<user-website-url>"
             }
 
 + Response 200 (application/json)
@@ -460,9 +487,9 @@ This API is used when a user wants to follow another user.
             }
 
 ## User Connections [/fitchirp/user/fb_friends/get?{user_id}&{page_no}]
-### Get Facebook Friends [GET]
+### Get Friends Suggestions [GET]
 
-This API is used to fetch all the facebook friends of the  user who 
+This API is used to fetch all the facebook friends of the  user and the user who have same interest and same zipcode, who 
 are using the app.
 
 
@@ -713,6 +740,34 @@ This API is used to delete a post created by user.
                 "status":200,
                 "message":"post deleted"
             }
+
+## Save a Post [/fitchirp/feed/save]
+### Save a Post [POST]
+
+This API is used to save a post created by another user.
+
++ Request (application/json)
+
+    + Headers
+    
+            Cookie: _fcud = "<unique-authentication-key>"
+            
+    + Body
+
+            {
+                "user_id":"<user-id>",
+                "post_id":"<post-id>"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "status":200,
+                "message":"post saved for you"
+            }
+
 
 ## Like a Post [/fitchirp/feed/like]
 ### Like a Post [POST]
@@ -1061,6 +1116,53 @@ This API is used to get a user's profile.
 ### Get Posts of User [GET]
 
 This API is used to get the posts of a user. The timestamp when sent 0 returns 
+the latest 10 posts of a user and when sent correctly, returns the posts older than
+the supplied timestamp.
+
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            
+        
+    + Body
+            
+            {
+              "status": 200,
+              "message": "success",
+              "result": [
+                {
+                  "posts": [
+                    {
+                      "id": "<post-id>",
+                      "timestamp": "<timestamp>",
+                      "user": {
+                        "user_id": "<user_id>",
+                        "first_name": "<first-name>",
+                        "last_name": "<last-name>",
+                        "thumb": "<thumb-user-image>"
+                      },
+                      "content": {
+                        "image": "<image-url>",
+                        "thumb": "<thumb>",
+                        "type":"video",
+                        "data": "<video-player-url>",
+                        "web_url":"<web-link-content>",
+                        "title": "<title>",
+                        "description": "<description>"
+                      },
+                      "activity": null,
+                    }
+                  ]
+                }
+              ]
+            }
+            
+## Get Saved Posts of User [/fitchirp/user/posts/saved/get?{user_id}&{timestamp}&{_fcud}]
+### Get Saved Posts of User [GET]
+
+This API is used to get the saved posts of a user. The timestamp when sent 0 returns 
 the latest 10 posts of a user and when sent correctly, returns the posts older than
 the supplied timestamp.
 
