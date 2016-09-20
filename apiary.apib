@@ -259,7 +259,7 @@ This API is used to reset the forgotten password.
                 "message":"A link to reset your password has been sent to your email"
             }
             
-## Setup Account [/fitchirp/setup_account]
+## Setup Account [/fitchirp/user/profile/basic]
 ### Setup Account [POST]
 
 This API is used to setup account of the user after registration.
@@ -455,9 +455,9 @@ This API is used to update profile of the user after registration.
             
 
 ## User Connections [/fitchirp/user/following]
-### Update Following [POST]
+### Follow/Unfollow User [POST]
 
-This API is used when a user wants to follow another user.
+This API is used when a user wants to follow/unfollow another user.
 
 + Request (application/json)
 
@@ -486,7 +486,7 @@ This API is used when a user wants to follow another user.
                 "message":"success"
             }
 
-## User Connections [/fitchirp/user/fb_friends/get?{user_id}&{page_no}]
+## User Connections [/fitchirp/user/friends/fb/get?{user_id}&{page_no}]
 ### Get Friends Suggestions [GET]
 
 This API is used to fetch all the facebook friends of the  user and the user who have same interest and same zipcode, who 
@@ -593,6 +593,7 @@ user.
                     {
                       "id": "<post-id>",
                       "timestamp": "<timestamp>",
+                      "is_public":true,
                       "user": {
                         "user_id": "<user_id>",
                         "first_name": "<first-name>",
@@ -609,7 +610,8 @@ user.
                         "data": "<video-player-url>",
                         "web_url":"<web-link-content>",
                         "title": "<title>",
-                        "description": "<description>"
+                        "description": "<description>", 
+                        "category_id":1,
                       },
                       "activity": {
                         "likes": 12,
@@ -741,7 +743,7 @@ This API is used to delete a post created by user.
                 "message":"post deleted"
             }
 
-## Save a Post [/fitchirp/feed/save]
+## Save a Post [/fitchirp/user/posts/saved/create]
 ### Save a Post [POST]
 
 This API is used to save a post created by another user.
@@ -768,6 +770,32 @@ This API is used to save a post created by another user.
                 "message":"post saved for you"
             }
 
+## Remove Saved Post [/fitchirp/user/posts/saved/delete]
+### Remove Saved Post [POST]
+
+This API is used to remove a post saved by the user in his profile.
+
++ Request (application/json)
+
+    + Headers
+    
+            Cookie: _fcud = "<unique-authentication-key>"
+            
+    + Body
+
+            {
+                "user_id":"<user-id>",
+                "post_id":"<post-id>"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "status":200,
+                "message":"post removed from your saved ones"
+            }
 
 ## Like a Post [/fitchirp/feed/like]
 ### Like a Post [POST]
@@ -803,7 +831,7 @@ This API is used to like a post.
                 "views":"<view-count>"
             }
 
-## View a Post [/fitchirp/feed/view]
+## Mark Viewed a Post [/fitchirp/feed/view]
 ### View a Post [POST]
 
 This API is used to mark a post as viewed.
@@ -838,7 +866,7 @@ This API is used to mark a post as viewed.
             }
             
 
-## Comment on a Post [/fitchirp/feed/comments/post]
+## Comment on a Post [/fitchirp/feed/comments/create]
 ### Comment on a Post [POST]
 
 This API is used to post a comment on a post.
@@ -1137,6 +1165,7 @@ the supplied timestamp.
                     {
                       "id": "<post-id>",
                       "timestamp": "<timestamp>",
+                      "is_public":true,
                       "user": {
                         "user_id": "<user_id>",
                         "first_name": "<first-name>",
@@ -1150,7 +1179,8 @@ the supplied timestamp.
                         "data": "<video-player-url>",
                         "web_url":"<web-link-content>",
                         "title": "<title>",
-                        "description": "<description>"
+                        "description": "<description>",
+                        "category_id":1
                       },
                       "activity": null,
                     }
@@ -1184,6 +1214,7 @@ the supplied timestamp.
                     {
                       "id": "<post-id>",
                       "timestamp": "<timestamp>",
+                      "is_public":true,
                       "user": {
                         "user_id": "<user_id>",
                         "first_name": "<first-name>",
@@ -1197,7 +1228,8 @@ the supplied timestamp.
                         "data": "<video-player-url>",
                         "web_url":"<web-link-content>",
                         "title": "<title>",
-                        "description": "<description>"
+                        "description": "<description>",
+                        "category_id":1
                       },
                       "activity": null,
                     }
@@ -1291,7 +1323,8 @@ and a interest. Multiple interest IDs can be used to filter the data.
 ## Create Post [/fitchirp/feed/create]
 ### Create new Post [POST]
 
-This API is used to create new post. 
+This API is used to create new post. The user can also save the post as draft 
+and later resume it to share it to public feeds.
 
 + Request (application/json)
 
@@ -1305,10 +1338,245 @@ This API is used to create new post.
                 "user_id":"<user-id>",
                 "content": "<content-mulipart>",
                 "title": "<title>",
-                "description": "<description>"
-                "save_post":false,
+                "description": "<description>",
+                "save_post_later":false,
                 "category_id":0,
                 "tagged_users":["<user-id-1>", "<user-id-2>", "<user-id-3>"]
+            }
+
++ Response 200 (application/json)
+
+    
+    + Body
+    
+            {
+              "status": 200,
+              "message": "success",
+              "result": [
+                {
+                  "posts": [
+                    {
+                      "id": "<post-id>",
+                      "timestamp": "<timestamp>",
+                      "is_public":false,
+                      "user": {
+                        "user_id": "<user_id>",
+                        "first_name": "<first-name>",
+                        "last_name": "<last-name>",
+                        "thumb": "<thumb-user-image>"
+                      },
+                      "content": {
+                        "image": "<image-url>",
+                        "thumb": "<thumb>",
+                        "type":"video",
+                        "data": "<video-player-url>",
+                        "web_url":"<web-link-content>",
+                        "title": "<title>",
+                        "description": "<description>",
+                        "category_id":1
+                      },
+                      "activity": null,
+                    }
+                  ]
+                }
+              ]
+            }
+            
+## Friends - Following/Followers [/fitchirp/user/friends/get?{user_id}&{page_no}&{friends_type}]
+### Get All Friends [GET]
+
+This API is used to fetch the friends of the  user,
+the ones he is following or being followed by or both.
+
+friends_type can be following, follower or both
+
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            
+        
+    + Body
+    
+            {
+                "status":200,
+                "message":"success"
+                "result":[
+                    {
+                        "count":<total-count>,
+                        "page_no":1,
+                        "page_size":50,
+                        "users":[
+                            {
+                                "user_id":"<user-id>",
+                                "first_name":"<first-name>",
+                                "last_name":"<last-name>",
+                                "city":"<city>",
+                                "state":"<state>",
+                                "zip_code":"<zip-code>",
+                                "image":"<user-image-url>",
+                                "thumb":"<user-image-thumb-url>",
+                                "following":false,
+                                "follower":false,
+                                "user_type":"0", 
+                                "basic_profile":null,
+                                "professional_profile":null
+                            },
+                            {
+                                "user_id":"<user-id>",
+                                "first_name":"<first-name>",
+                                "last_name":"<last-name>",
+                                "city":"<city>",
+                                "state":"<state>",
+                                "zip_code":"<zip-code>",
+                                "image":"<user-image-url>",
+                                "thumb":"<user-image-thumb-url>",
+                                "following":false,
+                                "follower":false,
+                                "user_type":"0",
+                                "basic_profile":null,
+                                "professional_profile":null
+                            }
+                        ]
+                    }
+                ]
+            }
+            
+## Mark Notifications Read [/fitchirp/user/notifications/update]
+### Mark Notifications Read [POST]
+
+This API is used to mark notifications which user has read.
+
++ Request (application/json)
+
+    + Headers
+    
+            Cookie: _fcud = "<unique-authentication-key>"
+            
+    + Body
+
+            {
+                "user_id":"<user-id>",
+                "timestamp":"<latest-notification-timestamp>"
+            }
+
++ Response 200 (application/json)
+
+    
+    + Body
+    
+            {
+              "status": 200,
+              "message": "success"
+            }
+
+## Notifications [/fitchirp/user/notifications/get?{user_id}&{timestamp}]
+### Get All Notifications [GET]
+
+This API is used to fetch all the notifications of the user. Sending 0 as timestamp
+fetches the latest notifications and sending a timestamp fetches all the notifications
+older than the timestamp supplied.
+
+Notification types 
+
+follower : When a user starts following you, 
+following : when you start following a user,
+post_created : when a user you are following creates a new post,
+post_liked : when a user likes your post,
+post_commented : when a user comments on your post or replies to your comment, 
+friend_joined : when your fb friend joins the system, 
+tagged : when you are tagged in a post.
+
+The notification becomes read, as soon as the timestamp of the latest notification is sent
+to server when user leaves the notification screen. 
+
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            
+        
+    + Body
+    
+            {
+                "status":200,
+                "message":"success"
+                "result":[
+                    {
+                        "notifications":[
+                            {
+                                "id":"<notification-id>",
+                                "type":"post_liked",
+                                "timestamp":"<timestamp>",
+                                "is_read":"false",
+                                "user":{
+                                    "user_id":"<user-id>",
+                                    "first_name":"<first_name>",
+                                    "last_name":"<last-name>",
+                                    "user_type":0
+                                },
+                                "content":{
+                                    "post_id":"<post_id>",
+                                    "thumb":"<thumb-of-content>"
+                                }
+                            },
+                            {
+                                "id":"<notification-id>",
+                                "type":"friend_joined",
+                                "timestamp":"<timestamp>",
+                                "is_read":"false",
+                                "user":{
+                                    "user_id":"<user-id>",
+                                    "first_name":"<first_name>",
+                                    "last_name":"<last-name>",
+                                    "user_type":0
+                                },
+                                "content":null,
+                            }
+                        ]
+                    }
+                ]
+            }
+            
+
+## Settings [/fitchirp/user/settings]
+### Account Settings [POST]
+
+This API is used to mark notifications which user has read.
+
++ Request (application/json)
+
+    + Headers
+    
+            Cookie: _fcud = "<unique-authentication-key>"
+            
+    + Body
+
+            {
+                "user_id":"<user-id>",
+                "notification":{
+                    "likes_tags":0,
+                    "comments":1,
+                    "follower_request":2
+                },
+                "privacy":{
+                    "protect_my_posts":true,
+                    "tagging":{
+                        "anyone":true,
+                        "followers":false
+                    },
+                    "search":{
+                        "via_email":true,
+                        "via_zipcode":false,
+                    },
+                    "messaging":{
+                        "anyone":true,
+                        "followers":false,
+                        "no_one":false
+                    }
+                }
             }
 
 + Response 200 (application/json)
