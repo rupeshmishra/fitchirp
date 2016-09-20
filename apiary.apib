@@ -1205,3 +1205,118 @@ the supplied timestamp.
                 }
               ]
             }
+            
+## Search [/fitchirp/user/search?{user_id}&{page_no}&{keyword}&{interest_id_1|interest_id_2}]
+### Search User by name, email, zip [GET]
+
+This API is used to search users via their name, email or zipcode with a keyword 
+and a interest. Multiple interest IDs can be used to filter the data.
+
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            
+        
+    + Body
+    
+            {
+                "status":200,
+                "message":"success"
+                "result":[
+                    {
+                        "count":<total-count>,
+                        "page_no":1,
+                        "page_size":50,
+                        "users":[
+                            {
+                                "user_id":"<user-id>",
+                                "first_name":"<first-name>",
+                                "last_name":"<last-name>",
+                                "social_id":"<social-id>",
+                                "login_type":"<0-email, 1-facebook>",
+                                "city":"<city>",
+                                "state":"<state>",
+                                "zip_code":"<zip-code>",
+                                "image":"<user-image-url>",
+                                "thumb":"<user-image-thumb-url>",
+                                "following":false,
+                                "follower":false,
+                                "user_type":"0", 
+                                "professional_profile":{
+                                    "department":"<department-id>",
+                                    "specialities":
+                                    [
+                                        "speciality-1",
+                                        "speciality-2"
+                                    ],
+                                    "philosophy":"<p-description>",
+                                    "bio":"<bio-description>",
+                                    "education":"<edu-description>"
+                                }
+                            },
+                            {
+                                "user_id":"<user-id>",
+                                "first_name":"<first-name>",
+                                "last_name":"<last-name>",
+                                "social_id":"<social-id>",
+                                "login_type":"<0-email, 1-facebook>",
+                                "city":"<city>",
+                                "state":"<state>",
+                                "zip_code":"<zip-code>",
+                                "image":"<user-image-url>",
+                                "thumb":"<user-image-thumb-url>",
+                                "following":false,
+                                "follower":false,
+                                "user_type":"0", 
+                                "professional_profile":{
+                                    "department":"<department-id>",
+                                    "specialities":
+                                    [
+                                        "speciality-1",
+                                        "speciality-2"
+                                    ],
+                                    "philosophy":"<p-description>",
+                                    "bio":"<bio-description>",
+                                    "education":"<edu-description>"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+            
+
+## Create Post [/fitchirp/feed/create]
+### Create new Post [POST]
+
+This API is used to create new post. 
+
++ Request (application/json)
+
+    + Headers
+    
+            Cookie: _fcud = "<unique-authentication-key>"
+            
+    + Body
+
+            {
+                "user_id":"<user-id>",
+                "content": "<content-mulipart>",
+                "title": "<title>",
+                "description": "<description>"
+                "save_post":false,
+                "category_id":0,
+                "tagged_users":["<user-id-1>", "<user-id-2>", "<user-id-3>"]
+            }
+
++ Response 200 (application/json)
+
+    
+    + Body
+    
+            {
+              "status": 200,
+              "message": "success"
+            }
