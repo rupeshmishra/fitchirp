@@ -302,7 +302,7 @@ This API is used to setup account of the user after registration.
                 "message":"Invalid Zip Code"
             }
 
-## Profile [/fitchirp/user/profile/individual/important]
+## Individual Profile [/fitchirp/user/profile/individual/important]
 ### Complete Individual Profile [POST]
 
 This API is used to update individual profile of the user after registration.
@@ -353,7 +353,7 @@ This API is used to update individual profile of the user after registration.
                 "message":"Invalid User Id/Authentication Key"
             }
 
-## Profile [/fitchirp/user/profile/professional/important]
+## Professional Profile [/fitchirp/user/profile/professional/important]
 ### Complete Professional Profile [POST]
 
 This API is used to update profile of the professional user after registration.
@@ -407,7 +407,7 @@ This API is used to update profile of the professional user after registration.
                 "message":"Invalid User Id/Authentication Key"
             }
             
-## Profile [/fitchirp/user/profile/optional]
+## Common Profile - Final Step [/fitchirp/user/profile/optional]
 ### Complete Profile (Optional) [POST]
 
 This API is used to update profile of the user after registration.
@@ -424,7 +424,14 @@ This API is used to update profile of the user after registration.
                 "user_id":"<user-id>",
                 "announce":true,
                 "zip_code":"<zip-code>",
-                "invitations":["<email-1>", "<email-2>"]
+                "invitations":[
+                    "<email-1>",
+                    "<email-2>"
+                    ], 
+                "interested_in":[
+                    "<interest-id-1>",
+                    "<interest-id-2>"
+                    ]
             }
 
 + Response 200 (application/json)
@@ -454,7 +461,7 @@ This API is used to update profile of the user after registration.
             }
             
 
-## User Connections [/fitchirp/user/following]
+## Following a User [/fitchirp/user/following]
 ### Follow/Unfollow User [POST]
 
 This API is used when a user wants to follow/unfollow another user.
@@ -514,15 +521,10 @@ are using the app.
                                 "user_id":"<user-id>",
                                 "first_name":"<first-name>",
                                 "last_name":"<last-name>",
-                                "social_id":"<social-id>",
-                                "login_type":"<0-email, 1-facebook>",
                                 "city":"<city>",
                                 "state":"<state>",
                                 "zip_code":"<zip-code>",
-                                "image":"<user-image-url>",
                                 "thumb":"<user-image-thumb-url>",
-                                "following":false,
-                                "follower":false,
                                 "user_type":"0", 
                                 "professional_profile":{
                                     "department":"<department-id>",
@@ -534,21 +536,22 @@ are using the app.
                                     "philosophy":"<p-description>",
                                     "bio":"<bio-description>",
                                     "education":"<edu-description>"
+                                },
+                                "latest_post":{
+                                    "post_id":"<post-id>",
+                                    "thumb":"<thumb>",
+                                    "type":"0",
+                                    "title":"<title>"
                                 }
                             },
                             {
                                 "user_id":"<user-id>",
                                 "first_name":"<first-name>",
                                 "last_name":"<last-name>",
-                                "social_id":"<social-id>",
-                                "login_type":"<0-email, 1-facebook>",
                                 "city":"<city>",
                                 "state":"<state>",
                                 "zip_code":"<zip-code>",
-                                "image":"<user-image-url>",
                                 "thumb":"<user-image-thumb-url>",
-                                "following":false,
-                                "follower":false,
                                 "user_type":"0", 
                                 "professional_profile":{
                                     "department":"<department-id>",
@@ -560,6 +563,12 @@ are using the app.
                                     "philosophy":"<p-description>",
                                     "bio":"<bio-description>",
                                     "education":"<edu-description>"
+                                },
+                                "latest_post":{
+                                    "post_id":"<post-id>",
+                                    "thumb":"<thumb>",
+                                    "type":"0",
+                                    "title":"<title>"
                                 }
                             }
                         ]
