@@ -575,6 +575,8 @@ supplied with a timestamp returns all the posts older than the supplied timestam
 and if the timestamp is sent as 0, the request returns the top 50 cached feed of the 
 user. 
 
+access_level - 0 = draft/non-public, 1 = public in feed, 2 - private to chat
+
 
 + Response 200 (application/json)
 
@@ -593,7 +595,7 @@ user.
                     {
                       "id": "<post-id>",
                       "timestamp": "<timestamp>",
-                      "visibility":true,
+                      "access_level":"0",
                       "user": {
                         "user_id": "<user_id>",
                         "first_name": "<first-name>",
@@ -1165,7 +1167,7 @@ the supplied timestamp.
                     {
                       "id": "<post-id>",
                       "timestamp": "<timestamp>",
-                      "is_public":true,
+                      "access_level":"1",
                       "user": {
                         "user_id": "<user_id>",
                         "first_name": "<first-name>",
@@ -1214,7 +1216,7 @@ the supplied timestamp.
                     {
                       "id": "<post-id>",
                       "timestamp": "<timestamp>",
-                      "is_public":true,
+                      "access_level":"1",
                       "user": {
                         "user_id": "<user_id>",
                         "first_name": "<first-name>",
@@ -1358,7 +1360,7 @@ and later resume it to share it to public feeds.
                     {
                       "id": "<post-id>",
                       "timestamp": "<timestamp>",
-                      "is_public":false,
+                      "access_level":"0",
                       "user": {
                         "user_id": "<user_id>",
                         "first_name": "<first-name>",
