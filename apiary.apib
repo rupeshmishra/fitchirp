@@ -205,8 +205,7 @@ This API is used to register the user in the application using a valid email/pas
         {
             "email":"<user-email>",
             "password":"<user-password>",
-            "device_id":"<gcm-token>",
-            "referral_code":"<optional-referral-code>"
+            "device_id":"<gcm-token>"
         }
 
 + Response 200 (application/json)
@@ -368,6 +367,7 @@ This API is used to update profile of the professional user after registration.
 
             {
             "user_id":"<user-id>",
+            "referral_code":"<referral-code>",
             "department":"<department-id>",
                 "specialities":[
                     
@@ -1256,7 +1256,7 @@ This API is used to search users via their name, email or zipcode with a keyword
 and a interest. Multiple interest IDs can be used to filter the data.
 
 
-+ Response 200 (application/json)
++ Response 200 (application/json)de
 
     + Headers
     
