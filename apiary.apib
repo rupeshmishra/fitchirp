@@ -268,6 +268,7 @@ This API is used to setup account of the user after registration.
         {
             "user_id":"<user-id>",
             "image":"<multi-part-image>",
+            "email":"<email>",
             "first_name":"<first-name>",
             "last_name":"<last-name>",
             "phone":"<phone>",
@@ -662,6 +663,87 @@ access_level - 0 = draft/non-public, 1 = public in feed, 2 - private to chat
               ]
             }
 
+
+## Get Feed Details [/fitchirp/feed/details/get?{user_id}&{post_id}&{_fcud}]
+### Get Feed Details [GET]
+
+This API is used to fetch the details of a feed. The details can be fetched via the 
+post_id of the feed and the user_id.
+
+
+
++ Response 200 (application/json)
+
+    + Headers
+    
+            
+        
+    + Body
+            
+            {
+              "status": 200,
+              "message": "success",
+              "result": [
+                {
+                      "id": "<post-id>",
+                      "timestamp": "<timestamp>",
+                      "access_level":"0",
+                      "user": {
+                        "user_id": "<user_id>",
+                        "first_name": "<first-name>",
+                        "last_name": "<last-name>",
+                        "thumb": "<thumb-user-image>",
+                        "city": "<city>",
+                        "state": "<state>",
+                        "zipcode": "<zipcode>",
+                        "user_type": "0"
+                      },
+                      "content": {
+                        "image": "<image-url>",
+                        "thumb": "<thumb>",
+                        "data": "<video-player-url>",
+                        "web_url":"<web-link-content>",
+                        "title": "<title>",
+                        "description": "<description>", 
+                        "category_id":1,
+                      },
+                      "activity": {
+                        "likes": 12,
+                        "comments": 23,
+                        "views": 300,
+                        "is_liked":false,
+                        "is_commented":false,
+                        "is_shared":false,
+                        "commments_posted": [
+                          {
+                            "id": "1",
+                            "text": "<comment-text>",
+                            "timestmap": "<timestamp>",
+                            "user": {
+                              "user_id": "<user_id>",
+                              "first_name": "<first-name>",
+                              "thumb":"<thumb-image>",
+                              "last_name": "<last-name>"
+                            }
+                          },
+                          {
+                            "id": "2",
+                            "text": "<comment-text>",
+                            "timestmap": "<timestamp>",
+                            "user": {
+                              "user_id": "<user_id>",
+                              "first_name": "<first-name>",
+                              "last_name": "<last-name>",
+                              "thumb":"<thumb-image>"
+                            }
+                          }
+                        ]
+                      }
+                    }
+              ]
+            }
+
+
 ## Report Post [/fitchirp/feed/report]
 ### Report a Post [POST]
 
@@ -951,6 +1033,41 @@ This API is used to post a comment on a post.
               "status": 200,
               "message": "success"
             }
+
+## Get Likes on Post [/fitchirp/feed/likes/get?{user_id}&{post_id}&{_fcud}&{timestamp}]
+### Get Likes on Post [GET]
+
+This API is used to get list of users who have liked a post.
+
++ Response 200 (application/json)
+
+    
+    + Body
+    
+            {
+              "status": 200,
+              "message": "success",
+              "result": [
+                {
+                  "count": 20,
+                  "users": [
+                    {
+                        "user_id": "<user_id>",
+                        "first_name": "<first-name>",
+                        "last_name": "<last-name>",
+                        "thumb":"<thumb-image>"
+                    },
+                    {
+                        "user_id": "<user_id>",
+                        "first_name": "<first-name>",
+                        "last_name": "<last-name>",
+                        "thumb":"<thumb-image>"
+                    }
+                  ]
+                }
+              ]
+            }
+            
 
 ## Get Comments [/fitchirp/feed/comments/get?{user_id}&{post_id}&{_fcud}&{timestamp}]
 ### Get Comments on Post [GET]
@@ -1256,7 +1373,7 @@ This API is used to search users via their name, email or zipcode with a keyword
 and a interest. Multiple interest IDs can be used to filter the data.
 
 
-+ Response 200 (application/json)de
++ Response 200 (application/json)
 
     + Headers
     
